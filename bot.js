@@ -2,14 +2,14 @@ const Discord = require("discord.js");
 const rbx = require("roblox-js");
 const fs = require("fs");
 const bot = new Discord.Client();
-const DefaultRoles = require("DefaultRoles.json");
+const DefaultRoles = require("./DefaultRoles.json");
 var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
-const savedData = fs.readFileSync("RobloxIds.json");
+const savedData = fs.readFileSync("./RobloxIds.json");
 var RbxIds = JSON.parse(savedData);
 var Words = [];
 
-const ExistRoles = fs.readFileSync("ExistRoles.json");
+const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 bot.on("ready",function(){
 	console.log("Gotowy!");
@@ -69,7 +69,7 @@ bot.on("message",async msg => {
 				if (check > -1){
 					OK = true;
 					if(OK === true){
-						fs.writeFile("RobloxIds.json", JSON.stringify(RbxIds),success);
+						fs.writeFile("./RobloxIds.json", JSON.stringify(RbxIds),success);
 					function success(err){
 						if(!err){
 							msg.channel.send("Zwerifikowano pomyślnie.");
@@ -80,7 +80,7 @@ bot.on("message",async msg => {
 								if (rank <= 20){
 								ToVerify.addRole(DefaultRoles[rank]);
 								ERole[msg.author.id] = rank;
-								fs.writeFile("ExistRoles.json", JSON.stringify(ERole),lol);
+								fs.writeFile("./ExistRoles.json", JSON.stringify(ERole),lol);
 								
 								function lol(err){
 									if(err){
