@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const rbx = require("roblox-js");
 const fs = require("fs");
 const bot = new Discord.Client();
-const DefaultRoles = require("./DefaultRoles.json");
+const DefaultRoles = JSON.parse(require("./DefaultRoles.json"));
 var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
 const savedData = fs.readFileSync("./RobloxIds.json");
@@ -82,7 +82,9 @@ bot.on("message",async msg => {
 								rbx.getRankInGroup(RbxIds[msg.author.id],4014821).then(function(rank){
 									if (rank <= 20){
 									let role = msg.guild.roles.find(r => r.name === DefaultRoles[rank]);
+									if(role){
 									ToVerify.addRole(role);
+									}
 									rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
 										if(nick){
 											try{
