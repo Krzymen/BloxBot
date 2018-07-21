@@ -16,9 +16,12 @@ bot.on("ready",function(){
 	console.log("Gotowy!");
 	
 	rbx.getPlayers(4014821).then(function(group){
+		console.log(group);
+		var number = [];
 		var Plr = group.Players;
+		number = Plr.length;
 		
-		bot.user.setGame('Nasza grupa ma już' +Plr.length+" members!");
+		bot.user.setGame('Nasza grupa ma już' +number+" members!");
 	});
 	
 })
