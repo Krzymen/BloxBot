@@ -12,16 +12,29 @@ var Words = [];
 
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
+var number = 0;
+
+function count(value, index, array){
+
+	number = number  + 1;
+
+}
+
+
 bot.on("ready",function(){
 	console.log("Gotowy!");
 	
 	rbx.getPlayers(4014821).then(function(group){
+		
+		number = 0;
 		console.log(group.players);
 		
-		var Plr = group.players;
-		var number = JSON.parse(group.players);
+		var numbers = group.players;
 		
-		bot.user.setGame('Nasza grupa ma już' +number.length+" members!");
+		numbers.forEach(count);
+		
+		
+		bot.user.setGame('Nasza grupa ma już' +number+" members!");
 	});
 	
 })
