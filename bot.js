@@ -16,10 +16,10 @@ bot.on("ready",function(){
 	console.log("Gotowy!");
 	
 	rbx.getPlayers(4014821).then(function(group){
-		console.log(group);
+		console.log(group.players);
 		
-		var Plr = group.Players;
-		var number = JSON.parse(group.Players);
+		var Plr = group.players;
+		var number = JSON.parse(group.players);
 		
 		bot.user.setGame('Nasza grupa ma już' +number.length+" members!");
 	});
