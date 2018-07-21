@@ -17,11 +17,11 @@ bot.on("ready",function(){
 	
 	rbx.getPlayers(4014821).then(function(group){
 		console.log(group);
-		var number = [];
-		var Plr = group.Players;
-		number = Plr.length;
 		
-		bot.user.setGame('Nasza grupa ma już' +number+" members!");
+		var Plr = group.Players;
+		var number = JSON.parse(group.Players);
+		
+		bot.user.setGame('Nasza grupa ma już' +number.length+" members!");
 	});
 	
 })
