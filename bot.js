@@ -43,7 +43,7 @@ setTimeout(ChceckStatus,600000);
 
 bot.on("ready",function(){
 	console.log("Gotowy!");
-	
+	ChceckStatus();
 	
 	
 })
