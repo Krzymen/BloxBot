@@ -7,6 +7,7 @@ var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
 const savedData = fs.readFileSync("./RobloxIds.json");
 var RbxIds = JSON.parse(savedData);
+var TempIds = [];
 var Words = [];
 
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
@@ -36,70 +37,84 @@ bot.on("message",async msg => {
 	
 
 	if (!Command.startsWith(prefix)) return;
-	
-	if(Command === `${prefix}powiaz`){
-		console.log(RbxIds[msg.author.id]);
-		if(!RbxIds[msg.author.id]){
-			if(!Args[0]) return msg.channel.send("Proszę podać nazwe użytkownika na ROBLOX");
-			if(Args[0]){
-				rbx.getIdFromUsername(Args[0]).then(function(id){
-					let word = Math.floor((Math.random() * 5));
-					RbxIds[msg.author.id] = id;
-					Words[msg.author.id] = shouts[word];
-					console.log(Words[msg.author.id]);
-					msg.channel.send(`Znaleziono użytkownika! Teraz aby dokończyć werifikacje napisz w swoim opisie ${shouts[word]}. Gdy już to zrobisz wpisz b!ok.`);
-				}).catch(function(err){ 
-					msg.channel.send(`Użytkownik ${Args[0]} nie istnieje na ROBLOX.`);
-		
-				});
-			}	
-		}else{
-			msg.channel.send(`To konto jest już powiązane z kontem na ROBLOX`);
+	const member = guild.member(msg.author);
+	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
+		if(Command === `${prefix}powiaz`){
+			console.log(RbxIds[msg.author.id]);
+			if(!RbxIds[msg.author.id]){
+				if(!Args[0]) return msg.channel.send("Proszę podać nazwe użytkownika na ROBLOX");
+				if(Args[0]){
+					rbx.getIdFromUsername(Args[0]).then(function(id){
+						let word = Math.floor((Math.random() * 5));
+						TempIds[msg.author.id] = id;
+						Words[msg.author.id] = shouts[word];
+						console.log(Words[msg.author.id]);
+						msg.channel.send(`Znaleziono użytkownika! Teraz aby dokończyć werifikacje napisz w swoim opisie ${shouts[word]}. Gdy już to zrobisz wpisz b!ok.`);
+					}).catch(function(err){ 
+						msg.channel.send(`Użytkownik ${Args[0]} nie istnieje na ROBLOX.`);
+
+					});
+				}	
+			}else{
+				msg.channel.send(`To konto jest już powiązane z kontem na ROBLOX`);
+			}
 		}
-	}
-	
-	if(Command === `${prefix}ok`){
-		if (RbxIds[msg.author.id] > 0){
-			var OK = false;
-			
-			rbx.getBlurb(RbxIds[msg.author.id]).then(function(rank){
-				var check = rank.indexOf(Words[msg.author.id]);
-				console.log(Words[msg.author.id]);
-				console.log(check);
-				if (check > -1){
-					OK = true;
-					if(OK === true){
-						fs.writeFile("./RobloxIds.json", JSON.stringify(RbxIds),success);
-					function success(err){
-						if(!err){
-							msg.channel.send("Zwerifikowano pomyślnie.");
-							let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
-							let ToVerify = msg.member;
-							ToVerify.addRole(role);
-							rbx.getRankInGroup(RbxIds[msg.author.id],4014821).then(function(rank){
-								if (rank <= 20){
-								ToVerify.addRole(DefaultRoles[rank]);
-								ERole[msg.author.id] = rank;
-								fs.writeFile("./ExistRoles.json", JSON.stringify(ERole),lol);
-								
-								function lol(err){
-									if(err){
-										console.log(err);
+
+		if(Command === `${prefix}ok`){
+			if (TempIds[msg.author.id] > 0){
+				var OK = false;
+
+				rbx.getBlurb(TempIds[msg.author.id]).then(function(rank){
+					var check = rank.indexOf(Words[msg.author.id]);
+					console.log(Words[msg.author.id]);
+					console.log(check);
+					if (check > -1){
+						OK = true;
+						if(OK === true){
+							fs.writeFile("./RobloxIds.json", JSON.stringify(RbxIds),success);
+						function success(err){
+							if(!err){
+								msg.channel.send("Zwerifikowano pomyślnie.");
+								RbxIds[msg.author.id] = TempIds[msg.author.id];
+								let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
+								let ToVerify = msg.member;
+								ToVerify.addRole(role);
+								rbx.getRankInGroup(RbxIds[msg.author.id],4014821).then(function(rank){
+									if (rank <= 20){
+									let role = msg.guild.roles.find(r => r.name === DefaultRoles[rank]);
+									ToVerify.addRole(role);
+									rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
+										if(nick){
+											try{
+											msg.member.setNickname(msg.author.username + '['+nick+"]');
+											}catch(err){
+											console.log(err);
+											}
+										}
+									})
+									
+									ERole[msg.author.id] = rank;
+									fs.writeFile("./ExistRoles.json", JSON.stringify(ERole),lol);
+
+									function lol(err){
+										if(err){
+											console.log(err);
+										}
 									}
-								}
-								}
-							});
+									}
+								});
+							}else{
+								msg.channel.send("Wystąpił bład z weryfikacją :/");
+							}
+						}
 						}else{
-							msg.channel.send("Wystąpił bład z weryfikacją :/");
+							msg.channel.send("Nie udało się zweryfikować. Użyj komendy b!powiaz.");
 						}
 					}
-					}else{
-						msg.channel.send("Nie udało się zweryfikować. Użyj komendy b!powiaz.");
-					}
-				}
-			});	
-		}else{
-			msg.channel.send("Użyj komendy b!powiaz.");
+				});	
+			}else{
+				msg.channel.send("Użyj komendy b!powiaz.");
+			}
 		}
 	}
 })
