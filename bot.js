@@ -134,10 +134,10 @@ bot.on("message",async msg => {
 												console.log(err);
 												}
 											}
-									})
+									});
 
 									
-									}
+									
 								});
 							}else{
 								msg.channel.send("Wystąpił bład z weryfikacją :/");
