@@ -111,7 +111,7 @@ bot.on("message",async msg => {
 										}
 									}
 									if (rank == 19){
-									let role = msg.guild.roles.find(r => r.name === "Zaufany członek);
+									let role = msg.guild.roles.find(r => r.name === "Zaufany członek");
 										if(role){
 											ToVerify.addRole(role);
 										}
