@@ -21,13 +21,12 @@ function count(value, index, array){
 }
 
 
-bot.on("ready",function(){
-	console.log("Gotowy!");
-	
-	rbx.getPlayers(4014821).then(function(group){
+function ChceckStatus(){
+
+rbx.getPlayers(4014821).then(function(group){
 		
 		number = 0;
-		console.log(group.players);
+		
 		
 		var numbers = group.players;
 		
@@ -36,6 +35,16 @@ bot.on("ready",function(){
 		
 		bot.user.setGame('Nasza grupa ma już' +number+" members!");
 	});
+	
+setTimeout(ChceckStatus,600000);
+
+}
+
+
+bot.on("ready",function(){
+	console.log("Gotowy!");
+	
+	
 	
 })
 
