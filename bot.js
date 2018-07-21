@@ -37,7 +37,7 @@ bot.on("message",async msg => {
 	
 
 	if (!Command.startsWith(prefix)) return;
-	const member = guild.member(msg.author);
+	const member = msg.guild.member(msg.author);
 	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
 		if(Command === `${prefix}powiaz`){
 			console.log(RbxIds[msg.author.id]);
