@@ -2,8 +2,7 @@ const Discord = require("discord.js");
 const rbx = require("roblox-js");
 const fs = require("fs");
 const bot = new Discord.Client();
-const DefaultRolesJSON = require("./DefaultRoles.json");
-const DefaultRoles = JSON.parse(DefaultRolesJSON);
+
 var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
 const savedData = fs.readFileSync("./RobloxIds.json");
@@ -81,29 +80,63 @@ bot.on("message",async msg => {
 								let ToVerify = msg.member;
 								ToVerify.addRole(role);
 								rbx.getRankInGroup(RbxIds[msg.author.id],4014821).then(function(rank){
-									if (rank <= 20){
-									let role = msg.guild.roles.find(r => r.name === DefaultRoles[rank]);
-									if(role){
-									ToVerify.addRole(role);
+									if (rank == 2){
+									let role = msg.guild.roles.find(r => r.name === "Członek");
+										if(role){
+											ToVerify.addRole(role);
+										}
 									}
+									if (rank == 10){
+									let role = msg.guild.roles.find(r => r.name === "Aktywny Członek");
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+									if (rank == 12){
+									let role = msg.guild.roles.find(r => r.name === "Członek Miesiąca");
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+									if (rank == 13){
+									let role = msg.guild.roles.find(r => r.name === "Konkursowicz");
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+									if (rank == 16){
+									let role = msg.guild.roles.find(r => r.name === "Partner Grupy");
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+									if (rank == 19){
+									let role = msg.guild.roles.find(r => r.name === "Zaufany członek);
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+									if (rank == 20){
+									let role = msg.guild.roles.find(r => r.name === "Stały członek");
+										if(role){
+											ToVerify.addRole(role);
+										}
+									}
+										
+										
+										
+										
 									rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
 										if(nick){
 											try{
-											msg.member.setNickname(msg.author.username + '['+nick+']');
+												msg.member.setNickname(msg.author.username + '['+nick+']');
 											}catch(err){
-											console.log(err);
+												console.log(err);
+												}
 											}
-										}
 									})
-									
-									ERole[msg.author.id] = rank;
-									fs.writeFile("./ExistRoles.json", JSON.stringify(ERole),lol);
 
-									function lol(err){
-										if(err){
-											console.log(err);
-										}
-									}
+									
 									}
 								});
 							}else{
