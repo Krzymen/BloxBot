@@ -79,7 +79,7 @@ bot.on("message",async msg => {
 								let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
 								let ToVerify = msg.member;
 								ToVerify.addRole(role);
-								rbx.getRankInGroup(RbxIds[msg.author.id],4014821).then(function(rank){
+								rbx.getRankInGroup(4014821,RbxIds[msg.author.id]).then(function(rank){
 									console.log(rank);
 									if (rank == 2){
 									let role = msg.guild.roles.find(r => r.name === "Członek");
