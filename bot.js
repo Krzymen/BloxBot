@@ -15,6 +15,11 @@ var ERole = JSON.parse(ExistRoles);
 bot.on("ready",function(){
 	console.log("Gotowy!");
 	
+	rbx.getPlayers(4014821).then(function(group){
+		var Plr = group.Players;
+		
+		bot.user.setGame('Nasza grupa ma już' +Plr.length+" members!");
+	});
 	
 })
 
