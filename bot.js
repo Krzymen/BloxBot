@@ -86,7 +86,7 @@ bot.on("message",async msg => {
 									rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
 										if(nick){
 											try{
-											msg.member.setNickname(msg.author.username + '['+nick+"]');
+											msg.member.setNickname(msg.author.username + '['+nick+']');
 											}catch(err){
 											console.log(err);
 											}
