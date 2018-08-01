@@ -70,7 +70,7 @@ bot.on("message",async msg => {
 	let i = 0;
 	msgFilesArray.forEach(function(item, index){
 		console.log(item);
-		console.log(item.MessageAttachment);
+		console.log(item.message.url);
 		const options = {
 		
 		 hostname: 'www.virustotal.com',
