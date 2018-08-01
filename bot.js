@@ -69,7 +69,7 @@ bot.on("message",async msg => {
 	let msgFilesArray = msgFiles.array();
 	let i = 0;
 	msgFilesArray.forEach(function(item, index){
-		
+		console.log(msgFilesArray[index]);
 		console.log(msgFilesArray[index].MessageAttachment.url);
 		const options = {
 		
