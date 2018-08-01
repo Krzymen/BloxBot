@@ -92,7 +92,7 @@ bot.on("message",async msg => {
 			console.log(err);
 		});
 
-		const options = {
+		const options2 = {
 		
 		 hostname: 'www.virustotal.com',
  		 port: 443,
@@ -100,13 +100,13 @@ bot.on("message",async msg => {
  		 method: 'GET',
     		 };
 		
-		var req = https.request(options, function(res) {
-			res.on("data", function(data){
+		var req2 = https.request(options2, function(res2) {
+			res2.on("data", function(data){
 				console.log(data);
 			});
 		});
 		
-		req.on("error", function(err){
+		req2.on("error", function(err){
 			console.log(err);
 		});
 	});
