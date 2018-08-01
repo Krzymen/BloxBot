@@ -69,20 +69,24 @@ bot.on("message",async msg => {
 	let msgFilesArray = msgFiles.array();
 	let i = 0;
 	msgFilesArray.forEach(function(item, index){
-		console.log(item);
-		console.log(item.url);
+		
 		const options = {
 		
 		 hostname: 'www.virustotal.com',
  		 port: 443,
- 		 path: '/vtapi/v2/file/scan',
+ 		 path: '/vtapi/v2/url/scan',
  		 method: 'POST',
 		 headers: {
-       			'apikey': '<apikey>',
+       			'apikey': process.env.VT_API_KEY,
        			'url': item.url
-    		 }
-			
-		}
+    		 };
+		
+		var req = https.request(options, function(res) {
+			res.on("data", function(data){
+				console.log(data);
+			});
+		});
+
 	});
 		
             
