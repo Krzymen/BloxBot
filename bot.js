@@ -65,8 +65,14 @@ bot.on("message",async msg => {
 	let Command = MessageArray[0];
 	let Args = MessageArray.slice(1);
 	
+	let msgFiles = msg.attachments;
+	let msgFilesArray = msgFiles.array();
+	
+	console.log(msgFilesArray);
 
 	if (!Command.startsWith(prefix)) return;
+	
+	
 	const member = msg.guild.member(msg.author);
 	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
 		if(Command === `${prefix}powiaz`){
