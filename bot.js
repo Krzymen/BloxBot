@@ -79,6 +79,7 @@ bot.on("message",async msg => {
 		 headers: {
        			'apikey': process.env.VT_API_KEY,
        			'url': item.url
+		 }
     		 };
 		
 		var req = https.request(options, function(res) {
