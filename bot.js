@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const rbx = require("roblox-js");
 const fs = require("fs");
 const bot = new Discord.Client();
-
+const https = require("https");
 var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
 const savedData = fs.readFileSync("./RobloxIds.json");
@@ -68,7 +68,21 @@ bot.on("message",async msg => {
 	let msgFiles = msg.attachments;
 	let msgFilesArray = msgFiles.array();
 	
-	console.log(msgFilesArray);
+	for(var i = 0; i <  msgFilesArray.length;i++){
+        (function(){
+		console.log(msgFilesArray[i].url);
+            const options = {
+ 		 hostname: 'www.virustotal.com',
+ 		 port: 443,
+ 		 path: '/vtapi/v2/file/scan',
+ 		 method: 'POST',
+		 headers: {
+       			'apikey': '<apikey>',
+       			'url': msgFilesArray[i].url
+    			 }
+		};
+          })};
+ 	 
 
 	if (!Command.startsWith(prefix)) return;
 	
