@@ -70,7 +70,7 @@ bot.on("message",async msg => {
 	let i = 0;
 	msgFilesArray.forEach(function(item, index){
 		console.log(item);
-		console.log(item.message.url);
+		console.log(item.url);
 		const options = {
 		
 		 hostname: 'www.virustotal.com',
@@ -79,7 +79,7 @@ bot.on("message",async msg => {
  		 method: 'POST',
 		 headers: {
        			'apikey': '<apikey>',
-       			'url': msgFilesArray[i].url
+       			'url': item.url
     		 }
 			
 		}
