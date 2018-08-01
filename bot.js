@@ -67,21 +67,28 @@ bot.on("message",async msg => {
 	
 	let msgFiles = msg.attachments;
 	let msgFilesArray = msgFiles.array();
-	
-	for(var i = 0; i <  msgFilesArray.length;i++){
-        (function(){
+	let i = 0;
+	msgFilesArray.forEach(function(){
+		i=i+1;
 		console.log(msgFilesArray[i].url);
-            const options = {
- 		 hostname: 'www.virustotal.com',
+		const options = {
+		
+		 hostname: 'www.virustotal.com',
  		 port: 443,
  		 path: '/vtapi/v2/file/scan',
  		 method: 'POST',
 		 headers: {
        			'apikey': '<apikey>',
        			'url': msgFilesArray[i].url
-    			 }
-		};
-          })};
+    		 }
+			
+		}
+	});
+		
+            
+ 		
+		
+        
  	 
 
 	if (!Command.startsWith(prefix)) return;
