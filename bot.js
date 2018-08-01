@@ -87,7 +87,28 @@ bot.on("message",async msg => {
 				console.log(data);
 			});
 		});
+		
+		req.on("error", function(err){
+			console.log(err);
+		});
 
+		const options = {
+		
+		 hostname: 'www.virustotal.com',
+ 		 port: 443,
+ 		 path: '/vtapi/v2/url/report?apikey='+process.env.VT_API_KEY+'>&resource='+item.url,
+ 		 method: 'GET',
+    		 };
+		
+		var req = https.request(options, function(res) {
+			res.on("data", function(data){
+				console.log(data);
+			});
+		});
+		
+		req.on("error", function(err){
+			console.log(err);
+		});
 	});
 		
             
