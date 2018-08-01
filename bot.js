@@ -68,9 +68,9 @@ bot.on("message",async msg => {
 	let msgFiles = msg.attachments;
 	let msgFilesArray = msgFiles.array();
 	let i = 0;
-	msgFilesArray.forEach(function(){
-		i=i+1;
-		console.log(msgFilesArray[i].url);
+	msgFilesArray.forEach(function(item, index){
+		
+		console.log(msgFilesArray[index].MessageAttachment.url);
 		const options = {
 		
 		 hostname: 'www.virustotal.com',
