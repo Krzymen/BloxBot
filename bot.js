@@ -36,7 +36,7 @@ rbx.getPlayers(4014821).then(function(group){
 		bot.user.setGame('Nasza grupa ma już ' +number+" members!");
 	});
 	
-setTimeout(ChceckStatus,600000);
+setTimeout(ChceckStatus,100000);
 
 }
 
@@ -65,51 +65,6 @@ bot.on("message",async msg => {
 	let Command = MessageArray[0];
 	let Args = MessageArray.slice(1);
 	
-	let msgFiles = msg.attachments;
-	let msgFilesArray = msgFiles.array();
-	let i = 0;
-	msgFilesArray.forEach(function(item, index){
-		
-		const options = {
-		
-		 hostname: 'www.virustotal.com',
- 		 port: 443,
- 		 path: '/vtapi/v2/url/scan',
- 		 method: 'POST',
-		 headers: {
-       			'apikey': process.env.VT_API_KEY,
-       			'url': item.url
-		 }
-    		 };
-		
-		var req = https.request(options, function(res) {
-			res.on("data", function(data){
-				console.log(data);
-			});
-		});
-		
-		req.on("error", function(err){
-			console.log(err);
-		});
-
-		const options2 = {
-		
-		 hostname: 'www.virustotal.com',
- 		 port: 443,
- 		 path: '/vtapi/v2/url/report?apikey='+process.env.VT_API_KEY+'>&resource='+item.url,
- 		 method: 'GET',
-    		 };
-		
-		var req2 = https.request(options2, function(res2) {
-			res2.on("data", function(data){
-				console.log(data);
-			});
-		});
-		
-		req2.on("error", function(err){
-			console.log(err);
-		});
-	});
 		
             
  		
