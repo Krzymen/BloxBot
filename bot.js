@@ -44,7 +44,7 @@ setTimeout(ChceckStatus,100000);
 bot.on("ready",function(){
 	console.log("Gotowy!");
 	ChceckStatus();
-	console.log(rbx.getShout(2604935));
+	console.log(rbx.getShout(4117364));
 	
 })
 
