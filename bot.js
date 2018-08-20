@@ -3,13 +3,16 @@ const rbx = require("roblox-js");
 const fs = require("fs");
 const bot = new Discord.Client();
 const https = require("https");
+const db = require("quick.db");
 var prefix = 'b!'
 var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
 const savedData = fs.readFileSync("./RobloxIds.json");
 var RbxIds = JSON.parse(savedData);
 var TempIds = [];
 var Words = [];
-
+var LVLroles = ["Nowy w pisaniu[1-3 poziom]","Doświadczony w pisaniu[4-7 poziom]"];
+var MINroles = [1,4,8];
+var Poziomy = [20,50,100];
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
@@ -72,8 +75,61 @@ bot.on("message",async msg => {
         
  	 
 
-	if (!Command.startsWith(prefix)) return;
+	if (!Command.startsWith(prefix)){ 
+		
+	 
+        db.updateValue(message.author.id + message.guild.id, 1).then(i => { 
+           
+
+            let messages; 
+            if (i.value == 20) messages = 20; 
+            else if (i.value == 50) messages = 50; 
+            else if (i.value == 100) messages = 100;
+
+            if (!isNaN(messages)) { // If messages IS STILL empty, run this.
+                db.updateValue(`userLevel_${message.author.id + message.guild.id}`, 1).then(o => {
+			var NRG = false;
+		    MINroles.forEach(function(value,index){
+			    console.log(value);
+		    	if(o.Value === value){
+				let RoleToAdd = msg.guild.roles.find(r => r.name === LVLroles[index]);
+				LVLroles.forEach(function(value,index){
+				
+					let roleToRemove = msg.guild.roles.find(r => r.name === LVLroles[index]);
+					if(roleToRemove){
+						msg.Member.RemoveRole(roleToRemove);
+					};
+					
+				});
+				msg.Member.AddRole(RoleToAdd);
+				NRG = true;
+			}
+		    });
+			if(NRG){
+			 message.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
+			}else{
+			 message.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
+			}
+                   
+                })
+            }
+
+        })	
+		
+		
+	return;}
 	
+	if(Command === `${prefix}poziom`){
+		db.fetch(`userLevel_${message.author.id + message.guild.id}`).then(lvl=> {
+		
+			db.fetch(message.author.id + message.guild.id).then( i => {
+			
+				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.Value+`. `+i.Value+`/`+Poziomy[lvl.Value]+` do następnego poziomu.`);
+			
+			});
+		
+		});
+	}
 	
 	const member = msg.guild.member(msg.author);
 	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
