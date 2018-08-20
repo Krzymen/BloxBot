@@ -95,7 +95,7 @@ bot.on("message",async msg => {
           let Data = null;  
 
 	
-        client.query(`SELECT * FROM Poziomy WHERE userid=${msg.author.id};`), (err,res) => {
+        client.query('SELECT * FROM Poziomy WHERE userid='+msg.author.id+';'), (err,res) => { console.log('ok');
 		console.log(res);
   		if (res===null){
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
