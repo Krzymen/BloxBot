@@ -91,7 +91,7 @@ bot.on("message",async msg => {
 	let Command = MessageArray[0];
 	let Args = MessageArray.slice(1);
 	
-		
+if (!Command.startsWith(prefix)){ 
           let Data = null;  
 
 	
@@ -115,8 +115,6 @@ bot.on("message",async msg => {
 	};
 	
  	 
-
-	if (!Command.startsWith(prefix)){ 
 		
 		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
