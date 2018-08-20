@@ -118,6 +118,7 @@ bot.on("message",async msg => {
 		
 	 
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { console.log(Data);	
+	 CheckData();
            Data.msg = Data.msg + 1
 	   client.query(`UPDATE Poziomy SET msg=${Data.msg} WHERE userid=${msg.author.id}`);
 		i=Data.msg;
