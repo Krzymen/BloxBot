@@ -94,8 +94,8 @@ bot.on("message",async msg => {
 		
           let Data = null;  
 
-	function CheckData(){	
-        client.query(`SELECT * FROM Poziomy WHERE userid=${msg.author.id}`), (err,res) => {
+	
+        client.query(`SELECT * FROM Poziomy WHERE userid=${msg.author.id};`), (err,res) => {
 		console.log(res);
   		if (!res){
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
@@ -111,14 +111,15 @@ bot.on("message",async msg => {
 		}
 
 	};
-	}
- 	 CheckData();
+	
+ 	 
 
 	if (!Command.startsWith(prefix)){ 
 		
+		
+        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
+		console.log(Data);	
 	 
-        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { console.log(Data);	
-	 CheckData();
            Data.msg = Data.msg + 1
 	   client.query(`UPDATE Poziomy SET msg=${Data.msg} WHERE userid=${msg.author.id}`);
 		i=Data.msg;
