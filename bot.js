@@ -101,7 +101,7 @@ bot.on("message",async msg => {
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
 			if (err) throw err; return; 
 			Data.msg = 0; 
-			Data.lvl=0;
+			Data.lvl=0; console.log('Utworzono dane');
 			
 			});
 			 
@@ -121,7 +121,7 @@ bot.on("message",async msg => {
 		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
 		console.log(Data);	
-	 
+	 if(Data === null) return;
            Data.msg = Data.msg + 1
 	   client.query(`UPDATE Poziomy SET msg=${Data.msg} WHERE userid=${msg.author.id}`);
 		i=Data.msg;
