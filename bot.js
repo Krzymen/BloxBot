@@ -26,11 +26,8 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+client.query('CREATE TABLE Poziomy (ID int, MSG int,LVL int );', (err) => {
   if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
   client.end();
 });
 
@@ -90,9 +87,12 @@ bot.on("message",async msg => {
 	
 		
             
- 		
+ 	client.connect();
 		
-        
+        client.query(`SELECT * FROM Poziomy WHERE ID="${msg.author.id}"`, (err) => {
+  		if (err) throw err;
+ 		client.end();
+	});
  	 
 
 	if (!Command.startsWith(prefix)){ 
