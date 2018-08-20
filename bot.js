@@ -102,7 +102,7 @@ bot.on("message",async msg => {
 					};
 					
 				});
-				msg.Member.addRole(RoleToAdd);
+				msg.member.addRole(RoleToAdd);
 				NRG = true;
 			}
 		    });
