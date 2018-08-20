@@ -78,7 +78,7 @@ bot.on("message",async msg => {
 	if (!Command.startsWith(prefix)){ 
 		
 	 
-        db.updateValue(message.author.id + message.guild.id, 1).then(i => { 
+        db.updateValue(msg.author.id + msg.guild.id, 1).then(i => { 
            
 
             let messages; 
@@ -87,7 +87,7 @@ bot.on("message",async msg => {
             else if (i.value == 100) messages = 100;
 
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
-                db.updateValue(`userLevel_${message.author.id + message.guild.id}`, 1).then(o => {
+                db.updateValue(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
 			var NRG = false;
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
@@ -106,9 +106,9 @@ bot.on("message",async msg => {
 			}
 		    });
 			if(NRG){
-			 message.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
+			 msg.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
 			}else{
-			 message.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
+			 msg.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
 			}
                    
                 })
@@ -120,9 +120,9 @@ bot.on("message",async msg => {
 	return;}
 	
 	if(Command === `${prefix}poziom`){
-		db.fetch(`userLevel_${message.author.id + message.guild.id}`).then(lvl=> {
+		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl=> {
 		
-			db.fetch(message.author.id + message.guild.id).then( i => {
+			db.fetch(msg.author.id + msg.guild.id).then( i => {
 			
 				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.Value+`. `+i.Value+`/`+Poziomy[lvl.Value]+` do następnego poziomu.`);
 			
