@@ -120,10 +120,11 @@ bot.on("message",async msg => {
 	return;}
 	
 	if(Command === `${prefix}poziom`){
-		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl=> {
+		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl => {
 		
-			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i=> {
+			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i => {
 				console.log(i);
+				if(!i.value) return msg.channel.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
 				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
 			
 			});
