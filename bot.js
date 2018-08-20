@@ -78,7 +78,7 @@ bot.on("message",async msg => {
 	if (!Command.startsWith(prefix)){ 
 		
 	 
-        db.updateValue(msg.author.id + msg.guild.id, 1).then(i => { 
+        db.updateValue(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
            
 
             let messages; 
@@ -122,8 +122,8 @@ bot.on("message",async msg => {
 	if(Command === `${prefix}poziom`){
 		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl=> {
 		
-			db.fetch(msg.author.id + msg.guild.id).then(i=> {
-			
+			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i=> {
+				console.log(i);
 				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
 			
 			});
