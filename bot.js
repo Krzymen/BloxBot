@@ -36,7 +36,8 @@ rbx.getPlayers(4014821).then(function(group){
 		numbers.forEach(count);
 		
 		
-		bot.user.setGame('Nasza grupa ma już ' +number+" members!");
+		//bot.user.setGame('Nasza grupa ma już ' +number+" members!");
+		
 	});
 	
 setTimeout(ChceckStatus,100000);
