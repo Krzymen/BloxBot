@@ -100,11 +100,12 @@ bot.on("message",async msg => {
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
 			if (err) throw err;
 			});
-			  for (let row of res.rows) {
+			 
+		}
+		 for (let row of res.rows) {
     				console.log(JSON.stringify(row));
 				  Data = JSON.stringify(row);
   			}
-		}
 		
 
 	});
@@ -145,9 +146,9 @@ bot.on("message",async msg => {
 			}
 		    });
 			if(NRG === true){
-			 msg.reply(`Właśnie osiągnąłeś/aś ${o} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
+			 msg.reply(`Właśnie osiągnąłeś/aś ${Data.lvl} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
 			}else{
-			 msg.reply(`Właśnie osiągnąłeś/aś ${o} poziom w pisaniu!`); // Send their updated level to the channel.
+			 msg.reply(`Właśnie osiągnąłeś/aś ${Data.lvl} poziom w pisaniu!`); // Send their updated level to the channel.
 			}
                    
                 })
@@ -165,7 +166,7 @@ bot.on("message",async msg => {
 				console.log(i);
 				if(!lvl) lvl = 0;
 				if(!i) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
-				msg.reply(`Aktualnie posiadasz poziom `+lvl+`. `+i+`/`+Poziomy[lvl]+` do następnego poziomu.`);
+				msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+`. `+Data.msg+`/`+Poziomy[Data.lvl]+` do następnego poziomu.`);
 			
 			});
 		
