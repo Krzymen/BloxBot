@@ -122,9 +122,9 @@ bot.on("message",async msg => {
 	if(Command === `${prefix}poziom`){
 		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl=> {
 		
-			db.fetch(msg.author.id + msg.guild.id).then( i => {
+			db.fetch(msg.author.id + msg.guild.id).then(i=> {
 			
-				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.Value+`. `+i.Value+`/`+Poziomy[lvl.Value]+` do następnego poziomu.`);
+				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
 			
 			});
 		
