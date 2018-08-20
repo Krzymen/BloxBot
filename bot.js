@@ -26,12 +26,18 @@ const client = new Client({
 
 client.connect();
 
-client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
-  		if (err) console.log(err);
+//client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
+  		//if (err) console.log(err);
 
-	});
+	//});
 
+client.query('SELECT * FROM Poziomy;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
 
+});
 
 function count(value, index, array){
 
@@ -96,7 +102,7 @@ bot.on("message",async msg => {
 			});
 		
 		}
-		console.log(res);
+		console.log(res.MSG);
 
 	});
  	 
@@ -106,7 +112,7 @@ bot.on("message",async msg => {
 	 
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
            
-
+	//client.query(`UPDATE Poziomy SET MSG=${}`)
             let messages; 
             if (i == 20) messages = 20; 
             else if (i == 50) messages = 50; 
