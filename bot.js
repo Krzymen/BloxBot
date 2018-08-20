@@ -78,7 +78,7 @@ bot.on("message",async msg => {
 	if (!Command.startsWith(prefix)){ 
 		
 	 
-        db.updateValue(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
+        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
            
 
             let messages; 
@@ -87,7 +87,7 @@ bot.on("message",async msg => {
             else if (i.value == 100) messages = 100;
 
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
-                db.updateValue(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
+                db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
 			var NRG = false;
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
