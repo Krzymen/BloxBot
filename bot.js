@@ -26,10 +26,7 @@ const client = new Client({
 
 client.connect();
 
-client.query('CREATE TABLE Poziomy (ID int, MSG int,LVL int );', (err) => {
-  if (err) throw err;
 
-});
 
 
 
