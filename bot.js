@@ -109,7 +109,7 @@ bot.on("message",async msg => {
   			}
 		}
 
-	});
+	};
  	 
 
 	if (!Command.startsWith(prefix)){ 
