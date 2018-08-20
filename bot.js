@@ -36,7 +36,7 @@ rbx.getPlayers(4014821).then(function(group){
 		numbers.forEach(count);
 		
 		
-		//bot.user.setGame('Nasza grupa ma już ' +number+" members!");
+		bot.user.setGame('Nasza grupa ma już ' +number+" members!");
 		
 	});
 	
@@ -98,7 +98,7 @@ bot.on("message",async msg => {
 				
 					let roleToRemove = msg.guild.roles.find(r => r.name === LVLroles[index]);
 					if(roleToRemove){
-						msg.Member.RemoveRole(roleToRemove);
+						msg.member.removeRole(roleToRemove);
 					};
 					
 				});
@@ -125,6 +125,7 @@ bot.on("message",async msg => {
 		
 			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i => {
 				console.log(i);
+				if(!lvl) lvl = 0;
 				if(!i) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
 				msg.reply(`Aktualnie posiadasz poziom `+lvl+`. `+i+`/`+Poziomy[lvl]+` do następnego poziomu.`);
 			
