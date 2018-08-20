@@ -82,9 +82,9 @@ bot.on("message",async msg => {
            
 
             let messages; 
-            if (i.value == 20) messages = 20; 
-            else if (i.value == 50) messages = 50; 
-            else if (i.value == 100) messages = 100;
+            if (i == 20) messages = 20; 
+            else if (i == 50) messages = 50; 
+            else if (i == 100) messages = 100;
 
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
                 db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
