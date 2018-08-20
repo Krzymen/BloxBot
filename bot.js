@@ -91,7 +91,7 @@ bot.on("message",async msg => {
 			var NRG = false;
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
-		    	if(o.Value === value){
+		    	if(o === value){
 				let RoleToAdd = msg.guild.roles.find(r => r.name === LVLroles[index]);
 				LVLroles.forEach(function(value,index){
 				
@@ -106,9 +106,9 @@ bot.on("message",async msg => {
 			}
 		    });
 			if(NRG === true){
-			 msg.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
+			 msg.reply(`Właśnie osiągnąłeś/aś ${o} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
 			}else{
-			 msg.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
+			 msg.reply(`Właśnie osiągnąłeś/aś ${o} poziom w pisaniu!`); // Send their updated level to the channel.
 			}
                    
                 })
@@ -125,7 +125,7 @@ bot.on("message",async msg => {
 			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i => {
 				console.log(i);
 				if(!i) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
-				msg.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
+				msg.reply(`Aktualnie posiadasz poziom `+lvl+`. `+i+`/`+Poziomy[lvl]+` do następnego poziomu.`);
 			
 			});
 		
