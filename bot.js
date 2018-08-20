@@ -26,7 +26,10 @@ const client = new Client({
 
 client.connect();
 
+client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
+  		if (err) console.log(err);
 
+	});
 
 
 
@@ -88,7 +91,7 @@ bot.on("message",async msg => {
 		
         client.query(`SELECT * FROM Poziomy WHERE UserID="${msg.author.id}"`, (err,res) => {
   		if (err){
-			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id/593}, 0,0);`, (err) => {
+			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
 			if (err) throw err;
 			});
 		
