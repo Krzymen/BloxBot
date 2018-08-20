@@ -38,7 +38,7 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
   }
 
 });
-client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
+//client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
 
 	number = number  + 1;
@@ -92,7 +92,7 @@ bot.on("message",async msg => {
 	let Args = MessageArray.slice(1);
 	
 		
-            
+          let Data = null;  
 
 		
         client.query(`SELECT * FROM Poziomy WHERE userid="${msg.author.id}"`, (err,res) => {
@@ -102,6 +102,7 @@ bot.on("message",async msg => {
 			});
 			  for (let row of res.rows) {
     				console.log(JSON.stringify(row));
+				  Data = JSON.stringify(row);
   			}
 		}
 		
@@ -113,8 +114,9 @@ bot.on("message",async msg => {
 		
 	 
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
-           
-	//client.query(`UPDATE Poziomy SET MSG=${}`)
+           Data.msg = Data.msg + 1
+	   client.query(`UPDATE Poziomy SET msg=${Data.msg}`);
+		i=Data.msg;
             let messages; 
             if (i == 20) messages = 20; 
             else if (i == 50) messages = 50; 
@@ -123,6 +125,7 @@ bot.on("message",async msg => {
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
                 db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
 			var NRG = false;
+			o = Data.lvl;
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
 		    	if(o === value){
@@ -137,6 +140,8 @@ bot.on("message",async msg => {
 				});
 				msg.member.addRole(RoleToAdd);
 				NRG = true;
+				Data.lvl = Data.lvl + 1;
+				client.query(`UPDATE Poziomy SET lvl=${Data.lvl}`);
 			}
 		    });
 			if(NRG === true){
