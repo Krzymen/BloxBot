@@ -28,7 +28,7 @@ client.connect();
 
 client.query('CREATE TABLE Poziomy (ID int, MSG int,LVL int );', (err) => {
   if (err) throw err;
-  client.end();
+
 });
 
 
@@ -87,11 +87,11 @@ bot.on("message",async msg => {
 	
 		
             
- 	client.connect();
+
 		
         client.query(`SELECT * FROM Poziomy WHERE ID="${msg.author.id}"`, (err) => {
   		if (err) throw err;
- 		client.end();
+
 	});
  	 
 
