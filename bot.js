@@ -38,7 +38,7 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
   }
 
 });
-
+client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
 
 	number = number  + 1;
@@ -95,14 +95,16 @@ bot.on("message",async msg => {
             
 
 		
-        client.query(`SELECT * FROM Poziomy WHERE UserID="${msg.author.id}"`, (err,res) => {
+        client.query(`SELECT * FROM Poziomy WHERE userid="${msg.author.id}"`, (err,res) => {
   		if (err){
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
 			if (err) throw err;
 			});
-		
+			  for (let row of res.rows) {
+    				console.log(JSON.stringify(row));
+  			}
 		}
-		console.log(res.MSG);
+		
 
 	});
  	 
