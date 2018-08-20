@@ -105,10 +105,10 @@ bot.on("message",async msg => {
 				NRG = true;
 			}
 		    });
-			if(NRG){
-			 msg.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
+			if(NRG === true){
+			 msg.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
 			}else{
-			 msg.channel.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
+			 msg.reply(`Właśnie osiągnąłeś/aś ${o.value} poziom w pisaniu!`); // Send their updated level to the channel.
 			}
                    
                 })
@@ -125,7 +125,7 @@ bot.on("message",async msg => {
 			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i => {
 				console.log(i);
 				if(!i) return msg.channel.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
-				msg.channel.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
+				msg.reply(`Aktualnie posiadasz poziom `+lvl.value+`. `+i.value+`/`+Poziomy[lvl.value]+` do następnego poziomu.`);
 			
 			});
 		
