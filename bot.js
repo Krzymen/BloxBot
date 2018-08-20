@@ -26,9 +26,7 @@ const client = new Client({
 
 client.connect();
 
-client.query(`CREATE TABLE Poziomy (UserID int, MSG int,LVL int);`, (err) => {
-			if (err) throw err;
-});
+
 
 
 
@@ -95,9 +93,7 @@ bot.on("message",async msg => {
 			});
 		
 		}
-		for (let row of res.rows) {
-   			 console.log(JSON.stringify(row));
-  		}
+		console.log(res);
 
 	});
  	 
