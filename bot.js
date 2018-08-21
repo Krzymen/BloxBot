@@ -17,7 +17,7 @@ const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
 var AntySpamData = [];
-var SpamTimeLimit = 1000;
+var SpamTimeLimit = 2000;
 const { Client } = require('pg');
 
 const client = new Client({
