@@ -11,7 +11,7 @@ var RbxIds = JSON.parse(savedData);
 var TempIds = [];
 var Words = [];
 var LVLroles = ["Nowy w pisaniu[1-3 poziom]","Doświadczony w pisaniu[4-7 poziom]"];
-var MINroles = [1,4,8];
+var MINroles = [2,4,8];
 var Poziomy = [20,50,100];
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
@@ -38,10 +38,7 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
   }
 });
 
-const text = 'UPDATE Poziomy SET lvl = ($1), msg = ($2) WHERE UserId = ($3)'; const Values = [0,0,358001423562309642];
-	                        client.query(text,Values, (err) =>{ 
-		                 if (err)  console.log(err.stack);
-	            });
+
 
 //client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
