@@ -117,7 +117,7 @@ if (!Command.startsWith(prefix)){
  	 const query = {
           // give the query a unique name
             name: 'fetch-user',
-            text: 'SELECT * FROM user WHERE UserId = $1',
+            text: 'SELECT * FROM Poziomy WHERE UserId = $1',
             values: [msg.author.id]
           };
 
