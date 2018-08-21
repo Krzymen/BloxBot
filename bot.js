@@ -39,7 +39,7 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
 });
 
 
-const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
+/*const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
           const values =[1,0,0];
 
           // callback
@@ -52,7 +52,7 @@ const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *
 		    
                 // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
              }
-	  });
+	  });*/
 //client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
 
