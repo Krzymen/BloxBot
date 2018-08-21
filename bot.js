@@ -343,4 +343,19 @@ function addXP(){
 	}
 })
 
+bot.on("guildMemberRemove", async member => {
+
+	var UID = member.user.id;
+	const query = {
+                   // give the query a unique name
+                  name: 'delete-user',
+                  text: 'DELETE FROM Poziomy WHERE UserId = $1',
+                  values: [UID]
+                };
+	client.query(query, (err) => {
+		if (err) console.log(err);
+	});
+
+})
+
 bot.login(process.env.BOT_TOKEN);
