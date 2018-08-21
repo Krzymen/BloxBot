@@ -51,7 +51,8 @@ const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *
 		    Data = res.rows[0];
 		    
                 // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-             });
+             }
+	  });
 //client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
 
