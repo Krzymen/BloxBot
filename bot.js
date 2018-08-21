@@ -148,7 +148,8 @@ client.query(query, (err, res) => {
 function addXP(){		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
 		console.log(Data);	
-	 if(Data === null) return;
+	 if(Data === null) return; if(Data === undefined) return;
+		
            Data.msg = Data.msg + 1;
 	const text = 'UPDATE Poziomy SET msg = ($1) WHERE UserId = ($2)'; const Values = [Data.msg,msg.author.id];
 	   client.query(text,Values, (err) =>{ 
