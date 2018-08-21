@@ -76,7 +76,7 @@ bot.on("message",async msg => {
 	if(AntySpamData[msg.author.id]){
 	
 		console.log(msg.createdTimestamp - AntySpamData[msg.author.id]);
-	
+		AntySpamData[msg.author.id] = msg.createdTimestamp;
 	}else{
 	
 		AntySpamData[msg.author.id] = msg.createdTimestamp;
@@ -136,8 +136,7 @@ client.query(query, (err, res) => {
   }
 })
 function addXP(){		
-        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
-	console.log(msg.createdTime)	
+        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 	
 	 if(Data === null) return; if(Data === undefined) return;
 		
            Data.msg = parseInt(Data.msg) + 1;
@@ -162,7 +161,7 @@ function addXP(){
 	                        });
 			
 		    MINroles.forEach(function(value,index){
-			    console.log(value);
+			  
 		    	if(Data.lvl === value){
 				let RoleToAdd = msg.guild.roles.find(r => r.name === LVLroles[index]);
 				LVLroles.forEach(function(value,index){
