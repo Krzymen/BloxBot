@@ -137,7 +137,7 @@ if (!Command.startsWith(prefix)){
 // callback
 client.query(query, (err, res) => {
 	console.log(res);
-  if (err || !res.rows) {
+  if (err || !res.rows[0]) {
 	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
           const values =[msg.author.id,0,0];
 
