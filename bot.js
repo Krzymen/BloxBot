@@ -126,7 +126,7 @@ client.query(query, (err, res) => {
   if (err) {
     console.log(err.stack);
 	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
-          const values =[msg.authot.id,0,0];
+          const values =[msg.author.id,0,0];
 
           // callback
           client.query(text, values, (err, res) => {
