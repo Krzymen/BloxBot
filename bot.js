@@ -222,9 +222,9 @@ function addXP(){
 			});
 				
 			
-			});
+			
 		
-		});
+		
 	}
 	
 	const member = msg.guild.member(msg.author);
