@@ -10,9 +10,9 @@ const savedData = fs.readFileSync("./RobloxIds.json");
 var RbxIds = JSON.parse(savedData);
 var TempIds = [];
 var Words = [];
-var LVLroles = ["Nowy w pisaniu[1-3 poziom]","Doświadczony w pisaniu[4-7 poziom]"];
-var MINroles = [2,4,8];
-var Poziomy = [20,50,100];
+var LVLroles = ["Nowy w pisaniu[1-4 poziom]","Doświadczony w pisaniu[5-8 poziom]","Ekspert w pisaniu[9-15 poziom]","Król pisania[16-24 poziom]","Bóg Pisania[25 poziom]"];
+var MINroles = [1,5,9,16,25];
+var Poziomy = [20,50,100,200,400,550,800,1100,1500,1850,2300,2800,3350,3950,4600,5400,6050,6850,7700,8700,9550,10550,11600,12700,15000];
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
@@ -137,9 +137,9 @@ function addXP(){
 	   });
 		i=Data.msg;
             let messages; 
-            if (i == 20) messages = 20; 
-            else if (i == 50) messages = 50; 
-            else if (i == 100) messages = 100;
+           Poziomy.forEach(function(value){
+	   if(i === value) messages = value;
+	   });
 
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
                 db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
