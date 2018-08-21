@@ -17,6 +17,7 @@ const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
 var AntySpamData = [];
+var SpamTimeLimit = 2000;
 const { Client } = require('pg');
 
 const client = new Client({
@@ -75,7 +76,10 @@ bot.on("message",async msg => {
 	
 	if(AntySpamData[msg.author.id]){
 	
-		console.log(msg.createdTimestamp - AntySpamData[msg.author.id]);
+		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
+			msg.delete();
+			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").delete(3000);
+		}
 		AntySpamData[msg.author.id] = msg.createdTimestamp;
 	}else{
 	
