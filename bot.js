@@ -38,47 +38,25 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
   }
 });
 
+const text = 'UPDATE Poziomy SET lvl = ($1), msg = ($2) WHERE UserId = ($3)'; const Values = [0,0,358001423562309642];
+	                        client.query(text,Values, (err) =>{ 
+		                 if (err)  console.log(err.stack);
+	            });
 
-/*const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
-          const values =[1,0,0];
-
-          // callback
-          client.query(text, values, (err, res) => {
-             if (err) {
-              console.log(err.stack);
-             } else {
-               console.log(res.rows[0])
-		    Data = res.rows[0];
-		    
-                // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-             }
-	  });*/
 //client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
-
 	number = number  + 1;
-
 }
 
 
 function ChceckStatus(){
-
-rbx.getPlayers(4014821).then(function(group){
-		
-		number = 0;
-		
-		
-		var numbers = group.players;
-		
-		numbers.forEach(count);
-		
-		
-		bot.user.setGame('Nasza grupa ma już ' +number+" members!");
-		
-	});
-	
+rbx.getPlayers(4014821).then(function(group){		
+		number = 0;	
+		var numbers = group.players;		
+		numbers.forEach(count);				
+		bot.user.setGame('Nasza grupa ma już ' +number+" members!");		
+	});	
 setTimeout(ChceckStatus,100000);
-
 }
 
 
@@ -88,14 +66,6 @@ bot.on("ready",function(){
 	
 	
 })
-
-//function autoUpdateRole()
-//{
-//	if(guild.available){
-//		var members = guild.members;
-//		var membersArray = array.from(members.values());
-//	}
-//}
 
 
 bot.on("message",async msg => {
@@ -186,7 +156,7 @@ function addXP(){
 			
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
-		    	if(o === value){
+		    	if(Data.lvl === value){
 				let RoleToAdd = msg.guild.roles.find(r => r.name === LVLroles[index]);
 				LVLroles.forEach(function(value,index){
 				
