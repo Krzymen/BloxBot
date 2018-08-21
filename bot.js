@@ -136,6 +136,7 @@ if (!Command.startsWith(prefix)){
 
 // callback
 client.query(query, (err, res) => {
+	console.log(res);
   if (err) {
     console.log(err.stack);
 	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
