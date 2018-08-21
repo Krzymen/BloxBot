@@ -117,7 +117,7 @@ if (!Command.startsWith(prefix)){
  	 const query = {
           // give the query a unique name
             name: 'fetch-user',
-            text: 'SELECT * FROM user WHERE id = $1',
+            text: 'SELECT * FROM user WHERE UserId = $1',
             values: [msg.author.id]
           };
 
@@ -131,14 +131,16 @@ client.query(query, (err, res) => {
           // callback
           client.query(text, values, (err, res) => {
              if (err) {
-              console.log(err.stack)
+              console.log(err.stack);
              } else {
                console.log(res.rows[0])
+		    Data = res.rows[0];
                 // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
              }
 })
   } else {
     console.log(res.rows[0]);
+	  Data = res.rows[0];
   }
 })
 		
