@@ -26,10 +26,10 @@ const client = new Client({
 
 client.connect();
 
-//client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
-  		//if (err) console.log(err);
+client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
+  		if (err) console.log(err);
 
-	//});
+	});
 
 client.query('SELECT * FROM Poziomy;', (err, res) => {
   if (err) throw err;
