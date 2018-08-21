@@ -79,9 +79,10 @@ bot.on("message",async msg => {
 		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
 			msg.delete();
 			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").then(time => {time.delete(3000);});
+		return;
 		}
 		AntySpamData[msg.author.id] = msg.createdTimestamp;
-		return;
+		
 	}else{
 	
 		AntySpamData[msg.author.id] = msg.createdTimestamp;
