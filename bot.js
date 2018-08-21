@@ -16,7 +16,7 @@ var Poziomy = [20,50,100,200,400,550,800,1100,1500,1850,2300,2800,3350,3950,4600
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
-
+var AntySpamData = [];
 const { Client } = require('pg');
 
 const client = new Client({
@@ -73,7 +73,17 @@ bot.on("message",async msg => {
 	let Command = MessageArray[0];
 	let Args = MessageArray.slice(1);
 	
-if (!Command.startsWith(prefix)){ 
+	if(AntySpamData[msg.author.id]){
+	
+		console.log(msg.createdTimestamp - AntySpamData[msg.author.id]);
+	
+	}else{
+	
+		AntySpamData[msg.author.id] = msg.createdTimestamp;
+	
+	}
+	
+if (!Command.startsWith(prefix) && !Command.startsWith('t!') && !Command.startsWith('t@')){ 
           let Data = null;  
        /* client.query('SELECT * FROM Poziomy WHERE UserId='+msg.author.id+';'), (err,res) => { console.log('ok');
 		console.log(res);
@@ -103,7 +113,7 @@ if (!Command.startsWith(prefix)){
 
 // callback
 client.query(query, (err, res) => {
-	console.log(res);
+	
   if (err || !res.rows[0]) {
 	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
           const values =[msg.author.id,0,0];
@@ -113,21 +123,21 @@ client.query(query, (err, res) => {
              if (err) {
               console.log(err.stack);
              } else {
-               console.log(res.rows[0])
+               
 		    Data = res.rows[0];
 		     addXP();
                 // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
              }
 })
   } else {
-    console.log(res.rows[0]);
+
 	  Data = res.rows[0];
 	  addXP();
   }
 })
 function addXP(){		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
-		console.log(Data);	
+	console.log(msg.createdTime)	
 	 if(Data === null) return; if(Data === undefined) return;
 		
            Data.msg = parseInt(Data.msg) + 1;
