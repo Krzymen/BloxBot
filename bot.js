@@ -36,7 +36,7 @@ client.query('SELECT * FROM Poziomy;', (err, res) => {
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
-
+client.end();
 });
 //client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
 function count(value, index, array){
@@ -92,9 +92,7 @@ bot.on("message",async msg => {
 	let Args = MessageArray.slice(1);
 	
 if (!Command.startsWith(prefix)){ 
-          let Data = null;  
-
-	
+          let Data = null;  client.connect();
        /* client.query('SELECT * FROM Poziomy WHERE UserId='+msg.author.id+';'), (err,res) => { console.log('ok');
 		console.log(res);
   		if (res===null){
@@ -199,13 +197,13 @@ function addXP(){
                 })
             }
 
-        })}	
+        })} client.end();	
 		
 		
 	return;}
 	
 	if(Command === `${prefix}poziom`){
-		
+		client.connect();
 		const query = {
                    // give the query a unique name
                   name: 'get-user-info',
@@ -220,7 +218,8 @@ function addXP(){
 				var Data = res.rows[0];	
 		
 				msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+`. `+Data.msg+`/`+Poziomy[Data.lvl]+` do następnego poziomu.`);
-			});
+			}); client.end();
+	
 				
 			
 			
