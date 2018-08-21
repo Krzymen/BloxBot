@@ -95,7 +95,7 @@ if (!Command.startsWith(prefix)){
           let Data = null;  
 
 	
-        client.query('SELECT * FROM Poziomy WHERE UserId='+msg.author.id+';'), (err,res) => { console.log('ok');
+       /* client.query('SELECT * FROM Poziomy WHERE UserId='+msg.author.id+';'), (err,res) => { console.log('ok');
 		console.log(res);
   		if (res===null){
 			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
@@ -112,9 +112,35 @@ if (!Command.startsWith(prefix)){
   			}
 		}
 
-	};
+	};*/
 	
- 	 
+ 	 const query = {
+          // give the query a unique name
+            name: 'fetch-user',
+            text: 'SELECT * FROM user WHERE id = $1',
+            values: [msg.author.id]
+          };
+
+// callback
+client.query(query, (err, res) => {
+  if (err) {
+    console.log(err.stack);
+	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
+          const values =[msg.authot.id,0,0];
+
+          // callback
+          client.query(text, values, (err, res) => {
+             if (err) {
+              console.log(err.stack)
+             } else {
+               console.log(res.rows[0])
+                // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+             }
+})
+  } else {
+    console.log(res.rows[0]);
+  }
+})
 		
 		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
