@@ -135,16 +135,17 @@ client.query(query, (err, res) => {
              } else {
                console.log(res.rows[0])
 		    Data = res.rows[0];
+		     addXP();
                 // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
              }
 })
   } else {
     console.log(res.rows[0]);
 	  Data = res.rows[0];
+	  addXP();
   }
 })
-		
-		
+function addXP(){		
         db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 
 		console.log(Data);	
 	 if(Data === null) return;
@@ -190,7 +191,7 @@ client.query(query, (err, res) => {
                 })
             }
 
-        })	
+        })}	
 		
 		
 	return;}
