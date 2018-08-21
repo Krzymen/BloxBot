@@ -163,7 +163,13 @@ function addXP(){
             if (!isNaN(messages)) { // If messages IS STILL empty, run this.
                 db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
 			var NRG = false;
-			o = Data.lvl;
+			o = Data.lvl; 
+			Data.lvl = Data.lvl + 1;
+			const text = 'UPDATE Poziomy SET lvl = ($1) WHERE UserId = ($2)'; const Values = [Data.lvl,msg.author.id];
+	                        client.query(text,Values, (err) =>{ 
+		                 if (err)  console.log(err.stack);
+	                        });
+			
 		    MINroles.forEach(function(value,index){
 			    console.log(value);
 		    	if(o === value){
@@ -178,8 +184,9 @@ function addXP(){
 				});
 				msg.member.addRole(RoleToAdd);
 				NRG = true;
-				Data.lvl = Data.lvl + 1;
-				client.query(`UPDATE Poziomy SET lvl=${Data.lvl} WHERE userid=${msg.author.id}`);
+			
+		                 
+	                
 			}
 		    });
 			if(NRG === true){
@@ -197,13 +204,23 @@ function addXP(){
 	return;}
 	
 	if(Command === `${prefix}poziom`){
-		db.fetch(`userLevel_${msg.author.id + msg.guild.id}`).then(lvl => {
 		
-			db.fetch(`Wiadomosci_${msg.author.id + msg.guild.id}`).then(i => {
-				console.log(i);
-				if(!lvl) lvl = 0;
-				if(!i) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`);
+		const query = {
+                   // give the query a unique name
+                  name: 'get-user-info',
+                  text: 'SELECT * FROM Poziomy WHERE UserId = $1',
+                  values: [msg.author.id]
+                };
+
+	
+			
+			client.query(query, (err, res) => {	
+				if(err) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`); 
+				var Data = res.rows[0];	
+		
 				msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+`. `+Data.msg+`/`+Poziomy[Data.lvl]+` do następnego poziomu.`);
+			});
+				
 			
 			});
 		
