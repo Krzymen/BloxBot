@@ -78,6 +78,7 @@ bot.on("message",async msg => {
 	if(AntySpamData[msg.author.id]){
 	
 		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
+			if(!SpamCount[msg.author.id]) SpamCount[msg.author.id] = 0;
 			AntySpamData[msg.author.id] = msg.createdTimestamp;
 			msg.delete();
 			SpamCount[msg.author.id] = SpamCount[msg.author.id] + 1;
