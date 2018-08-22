@@ -94,6 +94,7 @@ bot.on("message",async msg => {
 			if(!msg.member.roles.find(r => r.name === "Administracja"))
 			msg.member.addRole(Muted).then(function(){
 			if(!msg.author.dmChannel){
+				console.log("tworze DM");
 				msg.member.createDM().then(channel => function(){
 					channel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
 						msg.guild.channels.find(c => c.name === "mod-log").then(c => c.send(msg.member.nickname + " został wyciszony z powodu spamu"));
@@ -102,7 +103,7 @@ bot.on("message",async msg => {
 					});
 				})
 			}else{
-			
+			console.log("wykryto DM");
 			msg.author.dmChannel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
 						msg.guild.channels.find(c => c.name === "mod-log").then(c => c.send(msg.member.nickname + " został wyciszony z powodu spamu"));
 						bot.setTimeout(RemoveMute,300000,msg.member,Muted,msg);
