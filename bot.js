@@ -10,7 +10,7 @@ const savedData = fs.readFileSync("./RobloxIds.json");
 var RbxIds = JSON.parse(savedData);
 var TempIds = [];
 var Words = [];
-var LVLroles = ["Nowy w pisaniu[1-4 poziom]","Doświadczony w pisaniu[5-8 poziom]","Ekspert w pisaniu[9-15 poziom]","Król pisania[16-24 poziom]","Bóg Pisania[25 poziom]"];
+var LVLroles = ["Nowy w pisaniu[1-4 poziom]","Doświadczony w pisaniu[5-8 poziom]","Ekspert w pisaniu[9-15 poziom]","Król chatu[16-24 poziom]","Bóg chatu[25 poziom]"];
 var MINroles = [1,5,9,16,25];
 var Poziomy = [20,50,100,200,400,550,800,1100,1500,1850,2300,2800,3350,3950,4600,5400,6050,6850,7700,8700,9550,10550,11600,12700,15000];
 const ExistRoles = fs.readFileSync("./ExistRoles.json");
@@ -211,9 +211,10 @@ function addXP(){
 	
 			
 			client.query(query, (err, res) => {	
-				if(err) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`); 
+				if(err || !res.rows[0]) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`); 
 				var Data = res.rows[0];	
-		
+				if(Data.lvl === 25) return msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+` i wysłałeś `+Data.msg+` wiadomości. Posiadasz już maksymalny poziom.`);
+
 				msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+`. `+Data.msg+`/`+Poziomy[Data.lvl]+` do następnego poziomu.`);
 			}); 
 	
