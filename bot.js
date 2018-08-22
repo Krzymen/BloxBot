@@ -17,6 +17,7 @@ const ExistRoles = fs.readFileSync("./ExistRoles.json");
 var ERole = JSON.parse(ExistRoles);
 var number = 0;
 var AntySpamData = [];
+var SpamCount = [];
 var SpamTimeLimit = 1500;
 const { Client } = require('pg');
 
@@ -78,6 +79,17 @@ bot.on("message",async msg => {
 	
 		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
 			msg.delete();
+			SpamCount[msg.author.id] = SpamCount[msg.author.id] + 1;
+			if(SpamCount[msg.author.id] === 10){
+			var Admin = msg.guild.roles.find(r => r.name === "Administracja");
+			var Muted = msg.guild.roles.find(r => r.name === "Wyciszony");
+			if(!msg.member.roles.find(r => r.name === "Administracja"))
+			msg.member.addRole(Muted).then(function(){
+			
+				
+			
+			});
+			}
 			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").then(time => {time.delete(3000);});
 		return;
 		}
@@ -91,24 +103,6 @@ bot.on("message",async msg => {
 	
 if (!Command.startsWith(prefix) && !Command.startsWith('t!') && !Command.startsWith('t@')){ 
           let Data = null;  
-       /* client.query('SELECT * FROM Poziomy WHERE UserId='+msg.author.id+';'), (err,res) => { console.log('ok');
-		console.log(res);
-  		if (res===null){
-			client.query(`INSERT INTO Poziomy (UserID, MSG, LVL) VALUES (${msg.author.id}, 0,0);`, (err) => {
-			if (err) throw err; return; 
-			Data.msg = 0; 
-			Data.lvl=0; console.log('Utworzono dane');
-			
-			});
-			 
-		}else{
-		 for (let row of res.rows) {
-    				console.log(JSON.stringify(row));
-				  Data = JSON.stringify(row);
-  			}
-		}
-
-	};*/
 	
  	 const query = {
           // give the query a unique name
@@ -132,7 +126,6 @@ client.query(query, (err, res) => {
                
 		    Data = res.rows[0];
 		     addXP();
-                // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
              }
 })
   } else {
