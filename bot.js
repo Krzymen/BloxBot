@@ -78,9 +78,12 @@ bot.on("message",async msg => {
 	if(AntySpamData[msg.author.id]){
 	
 		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
+			AntySpamData[msg.author.id] = msg.createdTimestamp;
 			msg.delete();
 			SpamCount[msg.author.id] = SpamCount[msg.author.id] + 1;
+			console.log(SpamCount[msg.author.id]);
 			if(SpamCount[msg.author.id] === 10){
+				console.log("proces wyciszania...");
 			var Admin = msg.guild.roles.find(r => r.name === "Administracja");
 			var Muted = msg.guild.roles.find(r => r.name === "Wyciszony");
 			if(!msg.member.roles.find(r => r.name === "Administracja"))
@@ -93,7 +96,7 @@ bot.on("message",async msg => {
 			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").then(time => {time.delete(3000);});
 		return;
 		}
-		AntySpamData[msg.author.id] = msg.createdTimestamp;
+		
 		
 	}else{
 	
