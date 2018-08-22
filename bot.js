@@ -86,7 +86,7 @@ bot.on("message",async msg => {
 			if(!msg.member.roles.find(r => r.name === "Administracja"))
 			msg.member.addRole(Muted).then(function(){
 			
-				
+				msg.member.createDM().then(channel => channel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie."))
 			
 			});
 			}
