@@ -101,7 +101,7 @@ bot.on("message",async msg => {
 						bot.setTimeout(RemoveMute,300000,msg.member,Muted,msg);
 						
 					});
-				})
+				});
 			}else{
 			console.log("wykryto DM");
 			msg.author.dmChannel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
