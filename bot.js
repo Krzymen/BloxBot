@@ -93,7 +93,7 @@ bot.on("message",async msg => {
 			var Muted = msg.guild.roles.find(r => r.name === "Wyciszony");
 			if(!msg.member.roles.find(r => r.name === "Administracja"))
 			msg.member.addRole(Muted).then(function(){
-			
+			if(!msg.author.dmChannel){
 				msg.member.createDM().then(channel => function(){
 					channel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
 						msg.guild.channels.find(c => c.name === "mod-log").then(c => c.send(msg.member.nickname + " został wyciszony z powodu spamu"));
@@ -101,7 +101,14 @@ bot.on("message",async msg => {
 						
 					});
 				})
+			}else{
 			
+			msg.author.dmChannel.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
+						msg.guild.channels.find(c => c.name === "mod-log").then(c => c.send(msg.member.nickname + " został wyciszony z powodu spamu"));
+						bot.setTimeout(RemoveMute,300000,msg.member,Muted,msg);
+			});
+			
+			}
 			});
 			}
 			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").then(time => {time.delete(3000);});
