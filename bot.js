@@ -18,6 +18,7 @@ var ERole = JSON.parse(ExistRoles);
 var number = 0;
 var AntySpamData = [];
 var SpamCount = [];
+var SpamNum = [];
 var SpamTimeLimit = 1500;
 const { Client } = require('pg');
 
@@ -94,11 +95,12 @@ bot.on("message",async msg => {
 			if(!msg.member.roles.find(r => r.name === "Administracja"))
 			msg.member.addRole(Muted).then(function(){
 			
-	
+				if(!SpamNum[msg.author.id]) SpamNum[msg.author.id] = 0;
+				SpamNum[msg.author.id] = SpamNum[msg.author.id] + 1;
 				msg.author.send("Zostałeś/aś wyciszony/a z powodu spamu na 5 minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
 						var modLog = msg.guild.channels.find(c => c.name === "mod-log");
-						modLog.send(msg.member.nickname+" został/a wyciszony/a na 5 minut z powodu spamu.");
-						bot.setTimeout(RemoveMute,300000,msg.member,Muted,msg);
+						modLog.send(msg.member.nickname+" został/a wyciszony/a na "+SpamNum[msg.author.id]*5+" minut z powodu spamu.");
+						bot.setTimeout(RemoveMute,300000*SpamNum[msg.author.id],msg.member,Muted,msg);
 						
 					});
 
