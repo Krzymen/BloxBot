@@ -379,3 +379,4 @@ bot.on("guildMemberRemove", async member => {
 })
 
 bot.login(process.env.BOT_TOKEN);
+console.log("Powinnien być gotowy...");
