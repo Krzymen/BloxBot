@@ -69,6 +69,12 @@ rbx.getPlayers(4014821).then(function(group){
 setTimeout(ChceckStatus,100000);
 }
 
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
 
 bot.on("ready",function(){
 	console.log("Gotowy!");
@@ -360,6 +366,27 @@ function addXP(){
 				msg.channel.send("Użyj komendy b!powiaz.");
 			}
 		}
+	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//						     Normalne komendy 						       //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	if(Command === `${prefix}com`){
+	const args = msg.content.split(" ").slice(1);
+		if(msg.author.id !== "358001423562309642") return;
+		try {
+     		 const code = args.join(" ");
+		 let evaled = eval(code);
+ 
+      		if(typeof evaled !== "string")
+       		 evaled = require("util").inspect(evaled);
+ 
+     		 msg.channel.send(clean(evaled), {code:"xl"});
+   		 } catch (err) {
+      		msg.channel.send(`\`BŁĄD\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+   		 }
+	
 	}
 })
 
