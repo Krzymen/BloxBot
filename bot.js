@@ -249,7 +249,6 @@ function addXP(){
 		
 		
 	}
-	
 	const member = msg.guild.member(msg.author);
 	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
 		if(Command === `${prefix}powiaz`){
@@ -387,6 +386,12 @@ function addXP(){
       		msg.channel.send(`\`BŁĄD\` \`\`\`xl\n${clean(err)}\n\`\`\``);
    		 }
 	
+	}
+	if(Command === `${prefix}matma`)
+	{
+		const args = msg.content.split(" ").slice(1);
+		const code = args.join(" ");
+		msg.channel.send(code);
 	}
 })
 
