@@ -392,7 +392,7 @@ function addXP(){
 	{
 		const args = msg.content.split(" ").slice(1);
 		const code = args.join(" ");
-		var matma = Math.eval(code);
+		var matma = Matma.eval(code);
 		if(matma){ 
 			msg.channel.send(matma);
 		}else{
