@@ -392,12 +392,26 @@ function addXP(){
 	{
 		const args = msg.content.split(" ").slice(1);
 		const code = args.join(" ");
+		try{
 		var matma = Matma.eval(code);
 		if(matma){ 
 			msg.channel.send(matma);
 		}else{
 			msg.channel.send("Nie ma działania matematycznego.");
 		}
+		}catch(err){
+		
+		msg.channel.send("Nieodpowiednie działanie matematyczne.");
+		}
+	}
+	if(Command === `${prefix}help` || Command === `${prefix}pomoc`){
+	
+		if(member.roles.find(val => val.name === 'Zweryfikowany')){
+		
+			msg.channel.send("Polecam zajrzeć na #bloxbot-pomoc :)");
+		
+		}
+	
 	}
 })
 
