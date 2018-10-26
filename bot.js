@@ -391,7 +391,12 @@ function addXP(){
 	{
 		const args = msg.content.split(" ").slice(1);
 		const code = args.join(" ");
-		msg.channel.send(code);
+		var matma = parseInt(code);
+		if(matma){ 
+			msg.channel.send(matma);
+		}else{
+			msg.channel.send("Nie ma działania matematycznego.");
+		}
 	}
 })
 
