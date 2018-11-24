@@ -21,6 +21,7 @@ var AntySpamData = [];
 var SpamCount = [];
 var SpamNum = [];
 var SpamTimeLimit = 1500;
+var RobloxNawala = false;
 const { Client } = require('pg');
 
 const client = new Client({
@@ -64,8 +65,15 @@ function ChceckStatus(){
 rbx.getPlayers(4014821).then(function(group){		
 		number = 0;	
 		var numbers = group.players;		
-		numbers.forEach(count);				
-		bot.user.setGame('Nasza grupa ma już ' +number+" members!");		
+		numbers.forEach(count);	
+	try{
+		bot.user.setActivity('Nasza grupa ma już ' +number+" members!",{type:'PLAYING'});
+		RobloxNawala = true;
+	}catch{
+		bot.user.setActivity('Serwery robloxa nie działają!',{type:'PLAYING'});
+		bot.user.setStatus('dnd');
+		RobloxNawala = false;
+	}
 	});	
 setTimeout(ChceckStatus,100000);
 }
@@ -92,6 +100,7 @@ bot.on("message",async msg => {
 	let MessageArray = msg.content.split(" ");
 	let Command = MessageArray[0];
 	let Args = MessageArray.slice(1);
+	
 	
 	if(AntySpamData[msg.author.id]){
 	
@@ -224,7 +233,8 @@ function addXP(){
 		
 		
 	return;}
-	
+	if(!Command.StartsWith(prefix)) return;
+	if(RobloxNawala) return msg.channel.send('Serwery robloxa nawalają, więc korzystanie z bota jest niemożliwe.');
 	if(Command === `${prefix}poziom`){
 		
 		const query = {
