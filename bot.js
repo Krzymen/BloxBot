@@ -291,12 +291,13 @@ function addXP(){
 					if (check > -1){
 						OK = true;
 						if(OK === true){
-						function success(err){
-							if(!err){
-								msg.channel.send("Zwerifikowano pomyślnie.");
+							msg.channel.send("Zwerifikowano pomyślnie.");
 								let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
 								let ToVerify = msg.member;
 								ToVerify.addRole(role);
+						function success(err){
+							if(!err){
+								
 								rbx.getRankInGroup(4014821,RbxIds[msg.author.id]).then(function(rank){
 									console.log(rank);
 									if (rank == 2){
