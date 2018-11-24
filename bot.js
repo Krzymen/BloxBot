@@ -284,11 +284,9 @@ function addXP(){
 					if (check > -1){
 						OK = true;
 						if(OK === true){
-							fs.writeFile("./RobloxIds.json", JSON.stringify(RbxIds),success);
 						function success(err){
 							if(!err){
 								msg.channel.send("Zwerifikowano pomyślnie.");
-								RbxIds[msg.author.id] = TempIds[msg.author.id];
 								let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
 								let ToVerify = msg.member;
 								ToVerify.addRole(role);
@@ -337,10 +335,10 @@ function addXP(){
 										}
 									}
 										
-										
-										
-										
-									rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
+												
+											
+								});
+								rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
 										if(nick){
 											try{
 												msg.member.setNickname(msg.author.username + '['+nick+']');
@@ -349,10 +347,6 @@ function addXP(){
 												}
 											}
 									});
-
-									
-									
-								});
 							}else{
 								msg.channel.send("Wystąpił bład z weryfikacją :/");
 							}
