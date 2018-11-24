@@ -252,9 +252,8 @@ function addXP(){
 	}
 	const member = msg.guild.member(msg.author);
 	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
-		if(Command === `${prefix}powiaz`){
-			console.log(RbxIds[msg.author.id]);
-			if(!RbxIds[msg.author.id]){
+		if(Command === `${prefix}powiaz`){;
+			
 				if(!Args[0]) return msg.channel.send("Proszę podać nazwe użytkownika na ROBLOX");
 				if(Args[0]){
 					rbx.getIdFromUsername(Args[0]).then(function(id){
@@ -268,9 +267,7 @@ function addXP(){
 
 					});
 				}	
-			}else{
-				msg.channel.send(`To konto jest już powiązane z kontem na ROBLOX`);
-			}
+		
 		}
 
 		if(Command === `${prefix}ok`){
