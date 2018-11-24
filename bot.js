@@ -233,7 +233,7 @@ function addXP(){
 		
 		
 	return;}
-	if(!Command.StartsWith(prefix)) return;
+	if (!Command.startsWith(prefix)) return;
 	if(RobloxNawala) return msg.channel.send('Serwery robloxa nawalają, więc korzystanie z bota jest niemożliwe.');
 	if(Command === `${prefix}poziom`){
 		
