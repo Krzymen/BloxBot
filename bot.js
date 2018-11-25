@@ -68,11 +68,11 @@ rbx.getPlayers(4014821).then(function(group){
 		numbers.forEach(count);	
 	try{
 		bot.user.setActivity('Nasza grupa ma już ' +number+" members!",{type:'PLAYING'});
-		RobloxNawala = true;
-	}catch{
+		RobloxNawala = false;
+	}catch(err){
 		bot.user.setActivity('Serwery robloxa nie działają!',{type:'PLAYING'});
 		bot.user.setStatus('dnd');
-		RobloxNawala = false;
+		RobloxNawala = true;
 	}
 	});	
 setTimeout(ChceckStatus,100000);
