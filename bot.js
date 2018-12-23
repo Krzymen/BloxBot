@@ -20,7 +20,7 @@ var number = 0;
 var AntySpamData = [];
 var SpamCount = [];
 var SpamNum = [];
-var SpamTimeLimit = 1500;
+var SpamTimeLimit = 1000;
 var RobloxNawala = false;
 const { Client } = require('pg');
 
