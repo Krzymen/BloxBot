@@ -1,436 +1,94 @@
-const Discord = require("discord.js");
-const rbx = require("roblox-js");
-const fs = require("fs");
-const bot = new Discord.Client();
-const https = require("https");
-const db = require("quick.db");
-const Matma = require("mathjs");
-var prefix = 'b!'
-var shouts = ["lol","ciastko","roblox","bloxpolska","polska"];
-const savedData = fs.readFileSync("./RobloxIds.json");
-var RbxIds = JSON.parse(savedData);
-var TempIds = [];
-var Words = [];
-var LVLroles = ["Nowy w pisaniu[1-4 poziom]","Doświadczony w pisaniu[5-8 poziom]","Ekspert w pisaniu[9-15 poziom]","Król chatu[16-24 poziom]","Bóg chatu[25 poziom]"];
-var MINroles = [1,5,9,16,25];
-var Poziomy = [20,50,100,200,400,550,800,1100,1500,1850,2300,2800,3350,3950,4600,5400,6050,6850,7700,8700,9550,10550,11600,12700,15000];
-const ExistRoles = fs.readFileSync("./ExistRoles.json");
-var ERole = JSON.parse(ExistRoles);
-var number = 0;
-var AntySpamData = [];
-var SpamCount = [];
-var SpamNum = [];
-var SpamTimeLimit = 1000;
-var RobloxNawala = false;
-const { Client } = require('pg');
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
+var RoleNames = 
+{
+    "robux":"Give me free R$!",
+    "skrypt":"Skrypter",
+    "🔨":"Budowniczy",
+    "📰":"Ogłoszenia",
+    "roblox":"Eventy"
+}
+client.on('ready',() => {
+    console.log(`Zalogowano jako ${client.user.tag}`);
 });
 
-client.connect();
+client.on('raw', event => {
+    var EventName = event.t;
 
-/*client.query(`CREATE TABLE Poziomy (UserID BIGINT, MSG BIGINT, LVL INT)`, (err,res) => {
-  		if (err) console.log(err);
+    if(EventName === 'MESSAGE_REACTION_ADD')
+    {
+        if(event.d.message_id === '564784035365126144')
+        {
+            var RC = client.channels.get(event.d.channel_id);
+            if(RC.messages.has(event.d.message_id))
+            {
+                return
+            }else
+            {
+                RC.fetchMessage(event.d.message_id).then(msg => {
+                    var MsR = msg.reactions.get(event.d.emoji.name);
+                    if(event.d.emoji.id)
+                    {
+                        MsR = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id);
+                    }
 
-	});*/
-
-client.query('SELECT * FROM Poziomy;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-});
-
-
-function TimedRemove(msg){
-
-	if(SpamCount[msg.author.id] > 0){
-		SpamCount[msg.author.id] = SpamCount[msg.author.id] -1;
-	}
-bot.setTimeout(TimedRemove,900000,msg);
-}
-//client.query(`DELETE FROM Poziomy WHERE userid=358001423562309642`);
-function count(value, index, array){
-	number = number  + 1;
-}
-
-function RemoveMute(member,role,msg){
-	member.removeRole(role);
-	SpamCount[msg.author.id] = 0;
-}
-
-function ChceckStatus(){
-rbx.getPlayers(4014821).then(function(group){		
-		number = 0;	
-		var numbers = group.players;		
-		numbers.forEach(count);	
-	try{
-		bot.user.setActivity('Nasza grupa ma już ' +number+" members!",{type:'PLAYING'});
-		RobloxNawala = false;
-	}catch(err){
-		bot.user.setActivity('Serwery robloxa nie działają!',{type:'PLAYING'});
-		bot.user.setStatus('dnd');
-		RobloxNawala = true;
-	}
-	});	
-setTimeout(ChceckStatus,100000);
-}
-
-function clean(text) {
-  if (typeof(text) === "string")
-    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-  else
-      return text;
-}
-
-bot.on("ready",function(){
-	console.log("Gotowy!");
-	ChceckStatus();
-	
-	
-})
-
-
-bot.on("message",async msg => {
-	if (msg.author.bot) return;
-	if (msg.channel.type == "dm") msg.channel.send("Sorki ale nie odpowiadam na priv.");
-	if (msg.content == "Sorki ale nie odpowiadam na priv.") return;
-	let MessageArray = msg.content.split(" ");
-	let Command = MessageArray[0];
-	let Args = MessageArray.slice(1);
-	
-	
-	if(AntySpamData[msg.author.id]){
-	
-		if(msg.createdTimestamp - AntySpamData[msg.author.id] < SpamTimeLimit){
-			if(!SpamCount[msg.author.id]) SpamCount[msg.author.id] = 0;
-			AntySpamData[msg.author.id] = msg.createdTimestamp;
-			msg.delete();
-			SpamCount[msg.author.id] = SpamCount[msg.author.id] + 1;
-			console.log(SpamCount[msg.author.id]);
-			if(SpamCount[msg.author.id] === 10){
-				console.log("proces wyciszania...");
-			var Admin = msg.guild.roles.find(r => r.name === "Administracja");
-			var Muted = msg.guild.roles.find(r => r.name === "Wyciszony");
-			if(!msg.member.roles.find(r => r.name === "Administracja"))
-			msg.member.addRole(Muted).then(function(){
-			
-				if(!SpamNum[msg.author.id]){ 
-					SpamNum[msg.author.id] = 0;
-					TimedRemove(msg);
-				}
-				SpamNum[msg.author.id] = SpamNum[msg.author.id] + 1;
-				msg.author.send("Zostałeś/aś wyciszony/a z powodu spamu na "+SpamNum[msg.author.id]*5+" minut. Jeżeli po tym czasie będziesz nadal spamował, dostaniesz ostrzeżenie.").then(function(){
-						var modLog = msg.guild.channels.find(c => c.name === "mod-log");
-						modLog.send(msg.member.nickname+" został/a wyciszony/a na "+SpamNum[msg.author.id]*5+" minut z powodu spamu.");
-						bot.setTimeout(RemoveMute,300000*SpamNum[msg.author.id],msg.member,Muted,msg);
-						
-					});
-
-			
-			});
-			}
-			msg.reply("coś za szybko piszesz wiadomości. Zwolnij albo poniesiesz konsekwencje (limit czasu pomiędzy wiadomościami: "+SpamTimeLimit/1000+"s ).").then(time => {time.delete(3000);});
-		return;
-		}
-		AntySpamData[msg.author.id] = msg.createdTimestamp;
-		
-	}else{
-	
-		AntySpamData[msg.author.id] = msg.createdTimestamp;
-	
-	}
-	
-if (!Command.startsWith(prefix) && !Command.startsWith('t!') && !Command.startsWith('t@')){ 
-          let Data = null;  
-	
- 	 const query = {
-          // give the query a unique name
-            name: 'fetch-user',
-            text: 'SELECT * FROM Poziomy WHERE UserId = $1',
-            values: [msg.author.id]
-          };
-
-// callback
-client.query(query, (err, res) => {
-	
-  if (err || !res.rows[0]) {
-	  const text = 'INSERT INTO Poziomy(UserId,MSG,LVL) VALUES($1, $2, $3) RETURNING *'
-          const values =[msg.author.id,0,0];
-
-          // callback
-          client.query(text, values, (err, res) => {
-             if (err) {
-              console.log(err.stack);
-             } else {
-               
-		    Data = res.rows[0];
-		     addXP();
-             }
-})
-  } else {
-
-	  Data = res.rows[0];
-	  addXP();
-  }
-})
-function addXP(){		
-        db.add(`Wiadomosci_${msg.author.id + msg.guild.id}`, 1).then(i => { 	
-	 if(Data === null) return; if(Data === undefined) return;
-		
-           Data.msg = parseInt(Data.msg) + 1;
-	const text = 'UPDATE Poziomy SET msg = ($1) WHERE UserId = ($2)'; const Values = [Data.msg,msg.author.id];
-	   client.query(text,Values, (err) =>{ 
-		   if (err)  console.log(err.stack);
-	   });
-		i=Data.msg;
-            let messages; 
-           Poziomy.forEach(function(value){
-	   if(i === value) messages = value;
-	   });
-
-            if (!isNaN(messages)) { // If messages IS STILL empty, run this.
-                db.add(`userLevel_${msg.author.id + msg.guild.id}`, 1).then(o => {
-			var NRG = false;
-			o = Data.lvl; 
-			Data.lvl = Data.lvl + 1;
-			const text = 'UPDATE Poziomy SET lvl = ($1) WHERE UserId = ($2)'; const Values = [Data.lvl,msg.author.id];
-	                        client.query(text,Values, (err) =>{ 
-		                 if (err)  console.log(err.stack);
-	                        });
-			
-		    MINroles.forEach(function(value,index){
-			  
-		    	if(Data.lvl === value){
-				let RoleToAdd = msg.guild.roles.find(r => r.name === LVLroles[index]);
-				LVLroles.forEach(function(value,index){
-				
-					let roleToRemove = msg.guild.roles.find(r => r.name === LVLroles[index]);
-					if(roleToRemove){
-						msg.member.removeRole(roleToRemove);
-					};
-					
-				});
-				msg.member.addRole(RoleToAdd);
-				NRG = true;
-			
-		                 
-	                
-			}
-		    });
-			if(NRG === true){
-			 msg.reply(`Właśnie osiągnąłeś/aś ${Data.lvl} poziom w pisaniu i otrzymałeś/aś nowy tytuł!`); // Send their updated level to the channel.
-			}else{
-			 msg.reply(`Właśnie osiągnąłeś/aś ${Data.lvl} poziom w pisaniu!`); // Send their updated level to the channel.
-			}
-                   
-                })
+                    var User = client.users.get(event.d.user_id);
+                    client.emit("messageReactionAdd",MsR,User);
+                }).catch(err => console.log(err));
             }
+        }
+    }else if(EventName === 'MESSAGE_REACTION_REMOVE')
+    {
+        if(event.d.message_id === '564784035365126144')
+        {
+            var RC = client.channels.get(event.d.channel_id);
+            if(RC.messages.has(event.d.message_id))
+            {
+                return
+            }else
+            {
+                RC.fetchMessage(event.d.message_id).then(msg => {
+                    var MsR = msg.reactions.get(event.d.emoji.name);
+                    if(event.d.emoji.id)
+                    {
+                        MsR = msg.reactions.get(event.d.emoji.name + ":" + event.d.emoji.id);
+                    }
 
-        })} 
-		
-		
-	return;}
-	if (!Command.startsWith(prefix)) return;
-	if(RobloxNawala === true) return msg.channel.send('Serwery robloxa nawalają, więc korzystanie z bota jest niemożliwe.');
-	if(Command === `${prefix}poziom`){
-		
-		const query = {
-                   // give the query a unique name
-                  name: 'get-user-info',
-                  text: 'SELECT * FROM Poziomy WHERE UserId = $1',
-                  values: [msg.author.id]
-                };
+                    var User = client.users.get(event.d.user_id);
+                    client.emit("messageReactionRemove",MsR,User);
+                }).catch(err => console.log(err));
+            }
+        }
+    }
+});
 
-	
-			
-			client.query(query, (err, res) => {	
-				if(err || !res.rows[0]) return msg.reply(`Nie wysłałeś/aś żadnej wiadomości. Komendy się nie liczą do wiadomości`); 
-				var Data = res.rows[0];	
-				if(Data.lvl === 25) return msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+` i wysłałeś `+Data.msg+` wiadomości. Posiadasz już maksymalny poziom.`);
+client.on("messageReactionAdd",(MsR,User) => {
+    var Role = MsR.message.guild.roles.find(role => role.name === RoleNames[MsR.emoji.name]);
+    if(Role)
+    {
+        var Mebmer = MsR.message.guild.members.find(member => member.id === User.id);
+        if(Mebmer)
+        {
+            if(!Mebmer.roles.find(role => role.id === Role.id)){
+                Mebmer.addRole(Role.id);
+            } 
+        }
+    }
+});
 
-				msg.reply(`Aktualnie posiadasz poziom `+Data.lvl+`. `+Data.msg+`/`+Poziomy[Data.lvl]+` do następnego poziomu.`);
-			}); 
-	
-				
-			
-			
-		
-		
-	}
-	const member = msg.guild.member(msg.author);
-	if(!member.roles.find(val => val.name === 'Zweryfikowany')){
-		if(Command === `${prefix}powiaz`){;
-			
-				if(!Args[0]) return msg.channel.send("Proszę podać nazwe użytkownika na ROBLOX");
-				if(Args[0]){
-					rbx.getIdFromUsername(Args[0]).then(function(id){
-						let word = Math.floor((Math.random() * 5));
-						TempIds[msg.author.id] = id;
-						Words[msg.author.id] = shouts[word];
-						console.log(Words[msg.author.id]);
-						msg.channel.send(`Znaleziono użytkownika! Teraz aby dokończyć werifikacje napisz w swoim opisie ${shouts[word]}. Gdy już to zrobisz wpisz b!ok.`);
-					}).catch(function(err){ 
-						msg.channel.send(`Użytkownik ${Args[0]} nie istnieje na ROBLOX.`);
+client.on("messageReactionRemove",(MsR,User) => {
+    var Role = MsR.message.guild.roles.find(role => role.name === RoleNames[MsR.emoji.name]);
+    if(Role)
+    {
+        var Mebmer = MsR.message.guild.members.find(member => member.id === User.id);
+        if(Mebmer)
+        {
+            if(Mebmer.roles.find(role => role.id === Role.id)){
+                Mebmer.removeRole(Role.id);
+            } 
+        }
+    }
+});
 
-					});
-				}	
-		
-		}
-
-		if(Command === `${prefix}ok`){
-			if (TempIds[msg.author.id] > 0){
-				var OK = false;
-
-				rbx.getBlurb(TempIds[msg.author.id]).then(function(rank){
-					var check = rank.indexOf(Words[msg.author.id]);
-					console.log(Words[msg.author.id]);
-					console.log(check);
-					if (check > -1){
-						OK = true;
-						if(OK === true){
-							msg.channel.send("Zwerifikowano pomyślnie.");
-								let role = msg.guild.roles.find(r => r.name === "Zweryfikowany");
-								let ToVerify = msg.member;
-								ToVerify.addRole(role);
-						function success(err){
-							if(!err){
-								
-								rbx.getRankInGroup(4014821,RbxIds[msg.author.id]).then(function(rank){
-									console.log(rank);
-									if (rank == 2){
-									let role = msg.guild.roles.find(r => r.name === "Członek");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 10){
-									let role = msg.guild.roles.find(r => r.name === "Aktywny Członek");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 12){
-									let role = msg.guild.roles.find(r => r.name === "Członek Miesiąca");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 13){
-									let role = msg.guild.roles.find(r => r.name === "Konkursowicz");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 16){
-									let role = msg.guild.roles.find(r => r.name === "Partner Grupy");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 19){
-									let role = msg.guild.roles.find(r => r.name === "Zaufany członek");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-									if (rank == 20){
-									let role = msg.guild.roles.find(r => r.name === "Stały członek");
-										if(role){
-											ToVerify.addRole(role);
-										}
-									}
-										
-												
-											
-								});
-								rbx.getUsernameFromId(RbxIds[msg.author.id]).then(function(nick){
-										if(nick){
-											try{
-												msg.member.setNickname(msg.author.username + '['+nick+']');
-											}catch(err){
-												console.log(err);
-												}
-											}
-									});
-							}else{
-								msg.channel.send("Wystąpił bład z weryfikacją :/");
-							}
-						}
-						}else{
-							msg.channel.send("Nie udało się zweryfikować. Użyj komendy b!powiaz.");
-						}
-					}
-				});	
-			}else{
-				msg.channel.send("Użyj komendy b!powiaz.");
-			}
-		}
-	}
-	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//						     Normalne komendy 						       //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
-	if(Command === `${prefix}com`){
-	const args = msg.content.split(" ").slice(1);
-		if(msg.author.id !== "358001423562309642") return;
-		try {
-     		 const code = args.join(" ");
-		 let evaled = eval(code);
- 
-      		if(typeof evaled !== "string")
-       		 evaled = require("util").inspect(evaled);
- 
-     		 msg.channel.send(clean(evaled), {code:"xl"});
-   		 } catch (err) {
-      		msg.channel.send(`\`BŁĄD\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-   		 }
-	
-	}
-	if(Command === `${prefix}matma`)
-	{
-		const args = msg.content.split(" ").slice(1);
-		const code = args.join(" ");
-		try{
-		var matma = Matma.eval(code);
-		if(matma){ 
-			msg.channel.send(matma);
-		}else{
-			msg.channel.send("Nie ma działania matematycznego.");
-		}
-		}catch(err){
-		
-		msg.channel.send("Nieodpowiednie działanie matematyczne.");
-		}
-	}
-	if(Command === `${prefix}help` || Command === `${prefix}pomoc`){
-	
-		if(member.roles.find(val => val.name === 'Zweryfikowany')){
-		
-			msg.channel.send("Polecam zajrzeć na #bloxbot-pomoc :)");
-		
-		}
-	
-	}
-})
-
-bot.on("guildMemberRemove", async member => {
-
-	var UID = member.user.id;
-	const query = {
-                   // give the query a unique name
-                  name: 'delete-user',
-                  text: 'DELETE FROM Poziomy WHERE UserId = $1',
-                  values: [UID]
-                };
-	client.query(query, (err) => {
-		if (err) console.log(err);
-	});
-
-})
-
-bot.login(process.env.BOT_TOKEN);
-console.log("Powinnien być gotowy...");
+client.login(process.env.BOT_TOKEN);
